@@ -1,19 +1,26 @@
 # -*- coding: utf-8 -*-
 
+require './str_util'
+
 class SearchNumber
+  include StrUtil 
 
   First = 1
   Last = 1000
   Num = Last - First + 1
 
-  @param       #標準入力の値
-  @removed_num #配列から取り除く値
-  @arr = []    #値を取り除かれた後の配列
+  @param       # 標準入力の値
+  @removed_num # 配列から取り除く値
+  @arr = []    # 値を取り除かれた後の配列
 
   attr_accessor :param
 
+  # 配列から取り除かれた値を調べ、標準出力に出力する。
+  # @return [nil]
   def search
-    set_removed_num
+    if set_removed_num == false
+      return
+    end
     set_arr
 
     org_arr_sum = (First + Last) * Num / 2
@@ -27,7 +34,12 @@ class SearchNumber
 
   # @removed_numをセットする
   # @return [Integer] @removed_numを返す
+  # @return [Boolean] 引数が1から1000ではない場合、falseを返す
   def set_removed_num
+    unless StrUtil.integer_string?(@param) && @param.to_i >= First && @param.to_i <= Last
+      print "#{First}から#{Last}までの数値を入力してください。\n"
+      return false
+    end
     @removed_num = @param.to_i
   end
 
